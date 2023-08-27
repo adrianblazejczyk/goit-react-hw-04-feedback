@@ -1,34 +1,43 @@
-import { FeedbackOptions, Statistics } from '../components';
-const state = {
-  good: 0,
-  neutral: 0,
-  bad: 0,
-};
-export const App = () => {
-  return (
-    <div
-      style={{
-        height: '100vh',
-        display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'center',
-        fontSize: 40,
-        color: '#010101',
-      }}
-    >
-      <FeedbackOptions title="Statistics"> </FeedbackOptions>
+import { Component } from 'react';
+import { WraperApp } from './App.styled';
+import {
+  Section,
+  FeedbackOptions,
+  Statistics,
+  Notification,
+} from '../components';
 
-      <Statistics
-        title="Statistics"
-        good={50}
-        neutral={40}
-        bad={10}
-      ></Statistics>
+export class App extends Component {
+  state = {
+    good: 0,
+    neutral: 0,
+    bad: 0,
+  };
 
-      {/* <Statistics></Statistics> */}
+  updateFeedback = evt => {
+    const keyName = evt.currentTarget.textContent.toLowerCase();
+    this.setState({
+      [keyName]: this.state[keyName] + 1,
+    });
+  };
 
-      {/* <Statistics good={} neutral={} bad={} total={} positivePercentage={}></Statistics>
-      <FeedbackOptions options={} onLeaveFeedback={}></FeedbackOptions> */}
-    </div>
-  );
-};
+  render() {
+    return (
+      <WraperApp>
+        <Section title={'Please leave feedback'}>
+          <FeedbackOptions
+            options={['good', 'neutral', 'bad']}
+            callback={this.updateFeedback}
+          ></FeedbackOptions>
+        </Section>
+        <Section title={'Statistics'}>
+          {this.state.good + this.state.neutral + this.state.bad ? (
+            <Statistics state={this.state}> </Statistics>
+          ) : (
+            <Notification message="There is no feedback" />
+          )}
+        </Section>
+      </WraperApp>
+    );
+  }
+}
