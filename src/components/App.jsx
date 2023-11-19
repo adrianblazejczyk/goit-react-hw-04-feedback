@@ -16,9 +16,9 @@ export class App extends Component {
 
   updateFeedback = evt => {
     const keyName = evt.currentTarget.textContent.toLowerCase();
-    this.setState({
-      [keyName]: this.state[keyName] + 1,
-    });
+    this.setState(prevState => ({
+      [keyName]: prevState[keyName] + 1,
+    }));
   };
 
   render() {
