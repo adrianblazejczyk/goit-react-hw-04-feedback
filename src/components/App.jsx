@@ -1,4 +1,4 @@
-import { Component } from 'react';
+import { useState } from 'react';
 import { WraperApp } from './App.styled';
 import {
   Section,
@@ -7,37 +7,46 @@ import {
   Notification,
 } from '../components';
 
-export class App extends Component {
-  state = {
-    good: 0,
-    neutral: 0,
-    bad: 0,
-  };
+export const App = () => {
+  const [good, setGood] = useState(0);
+  const [neutral, setNeutral] = useState(0);
+  const [bad, setBad] = useState(0);
 
-  updateFeedback = evt => {
+  const updateFeedback = evt => {
     const keyName = evt.currentTarget.textContent.toLowerCase();
-    this.setState(prevState => ({
-      [keyName]: prevState[keyName] + 1,
-    }));
+
+    switch (keyName) {
+      case 'good':
+        setGood(prevGood => prevGood + 1);
+        break;
+      case 'neutral':
+        setNeutral(prevNeutral => prevNeutral + 1);
+        break;
+      case 'bad':
+        setBad(prevBad => prevBad + 1);
+        break;
+      default:
+        break;
+    }
   };
 
-  render() {
-    return (
-      <WraperApp>
-        <Section title={'Please leave feedback'}>
-          <FeedbackOptions
-            options={['good', 'neutral', 'bad']}
-            callback={this.updateFeedback}
-          ></FeedbackOptions>
-        </Section>
-        <Section title={'Statistics'}>
-          {this.state.good + this.state.neutral + this.state.bad ? (
-            <Statistics state={this.state}> </Statistics>
-          ) : (
-            <Notification message="There is no feedback" />
-          )}
-        </Section>
-      </WraperApp>
-    );
-  }
-}
+  return (
+    <WraperApp>
+      <Section title={'Please leave feedback'}>
+        <FeedbackOptions
+          options={['good', 'neutral', 'bad']}
+          callback={updateFeedback}
+        ></FeedbackOptions>
+      </Section>
+      <Section title={'Statistics'}>
+        {good + neutral + bad ? (
+          <Statistics good={good} bad={bad} neutral={neutral}>
+            {' '}
+          </Statistics>
+        ) : (
+          <Notification message="There is no feedback" />
+        )}
+      </Section>
+    </WraperApp>
+  );
+};

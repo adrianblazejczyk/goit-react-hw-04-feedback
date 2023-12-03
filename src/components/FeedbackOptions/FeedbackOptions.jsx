@@ -1,5 +1,6 @@
 import * as _ from 'lodash';
 import PropTypes from 'prop-types';
+
 import { IconContext } from 'react-icons';
 import { CiFaceSmile, CiFaceMeh, CiFaceFrown } from 'react-icons/ci';
 import { OptionsWraper, ButtonPoll } from './FeedbackOptions.styled';

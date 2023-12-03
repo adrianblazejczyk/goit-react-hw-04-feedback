@@ -5,8 +5,7 @@ const total = (good, neutral, bad) => good + neutral + bad;
 const goodFeedbackPercentage = (good, neutral, bad) =>
   Math.ceil((good / (good + neutral + bad)) * 100);
 
-export const Statistics = ({ state }) => {
-  const { good, neutral, bad } = state;
+export const Statistics = ({ good, bad, neutral }) => {
   return (
     <StyledList>
       <ul>
